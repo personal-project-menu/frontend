@@ -14,6 +14,8 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@emotion/react';
 import Box from '@mui/material/Box';
 import Label from '@mui/icons-material/Label';
+import Button from '@mui/material/Button';
+
 
 declare module 'react' {
     interface CSSProperties {
@@ -144,11 +146,34 @@ function CustomTreeItem(props: StyledTreeItemProps) {
 }
 
 export default function BarTreeView() {
+
+    const [expanded, setExpanded] = React.useState<string[]>([]);
+
+  const handleToggle = (event: React.SyntheticEvent, nodeIds: string[]) => {
+    setExpanded(nodeIds);
+  };
+
+  const handleExpandClick = () => {
+    setExpanded((oldExpanded) =>
+      oldExpanded.length === 0 ? ['1', '5', '6', '7', '8','12'] : [],
+    );
+    // 앞쪽에 모든 부모(?) nodeId를 전부 적어줘야 열림...
+  };
+
+
   return (
+    <Box>
+        <Box sx={{ mb: 1 }}>
+        <Button onClick={handleExpandClick}>
+          {expanded.length === 0 ? 'Expand all' : 'Collapse all'}
+        </Button>
+      </Box>  
     <TreeView
       aria-label="icon expansion"
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
+      expanded={expanded}
+      onNodeToggle={handleToggle}
       sx={{ height: 240, flexGrow: 1, maxWidth: 400, position: 'relative' }}
     >
       <CustomTreeItem nodeId="1" label="Applications" bgColor='#e8f0fe' color='#1a73e8'>
@@ -172,5 +197,6 @@ export default function BarTreeView() {
         </CustomTreeItem>
       </CustomTreeItem>
     </TreeView>
+    </Box>
   );
 }
