@@ -139,10 +139,10 @@ function CustomTreeItem(props: StyledTreeItemProps) {
       };
 
   return     <StyledTreeItemRoot
-
                 ContentComponent={CustomContent} 
                 style={styleProps}
-                {...other} />;
+                {...other} 
+            />;
 }
 
 export default function BarTreeView() {
